@@ -1,13 +1,12 @@
-# Audio Splitter Tool version 1.0
+# Whisper Splitter Tool version 1.0
 
 ## How to use this tool for splittings?
 0. Activate Conda Envirement if not already activated
 1. Just run mainDriver.py after setting things in config.py and input & output folder paths in main function of mainDriver.py:
 python newDriver.py
 
-## How to use this tool (mainDriver.py) Audio Splitter Tool version 1.0 to 1.2?
-1. Paste the folder (e.g AmyRecordings) containing recordings in the folder called, "OUTPUT".
-2. Set the configurations.
+## How to use this tool (mainDriver.py) 
+1. Set the configurations.
 3. Run the tool. 
 4. Get your results from OUTPUT folder.
 
@@ -17,7 +16,8 @@ python newDriver.py
 conda create -n whisper-splitter python=3.10
 3. Activate conda envirement:
 conda activate whisper-splitter
-4. Install the other libraries mentioned in requirement.txt
+4. Install the other libraries mentioned in requirement.txt:
+pip install -r requirements.txt
 
 
 ### Copyright (C) IDRAK AI
