@@ -1,0 +1,8 @@
+/junk
+/OUTPUT
+*.xlsx
+*.wav
+*.mp3
+*.zip
+/__pycache__
+/.vscode
