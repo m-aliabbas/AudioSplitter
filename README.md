@@ -21,6 +21,6 @@ conda activate whisper-splitter
 
 
 ### Copyright (C) IDRAK AI
-### Created by: M Musawar and Dr Safwan 
-### Dated: Nov 10th, 2022
+### Created by: M Musawar
+### Dated: April 5th, 2023
 ### Contact Info (in case of any problem): mmusawar.idrakai@gmail.com
