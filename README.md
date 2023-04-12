@@ -19,6 +19,8 @@ conda activate whisper-splitter
 4. Install the other libraries mentioned in requirement.txt:
 pip install -r requirements.txt
 
+## How to use this tool for simple diarization? 
+Kindly look into diarizer_example.py
 
 ### Copyright (C) IDRAK AI
 ### Created by: M Musawar
