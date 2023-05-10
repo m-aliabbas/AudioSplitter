@@ -6,14 +6,12 @@ import soundfile as sf
 import json
 from pathlib import Path
 import sys
-from config import WISPER_PATH
-sys.path.append(WISPER_PATH)
-from whisper2 import WhisperTranscriptorAPI
-
+import whisper
+from config import config
 
 class Py_Diarizer:
-    def __init__(self, whisper_model, auth_token) -> None: 
-        self.Wtranscriptor = WhisperTranscriptorAPI(model_path=whisper_model,file_processing=True)
+    def __init__(self, auth_token) -> None: 
+        self.model = whisper.load_model(config["model_size"])
         self.pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization@2.1",
                                     use_auth_token=auth_token)
 
@@ -128,7 +126,8 @@ class Py_Diarizer:
                 #Saving chunk
                 torchaudio.save(output_filepath, currentWaveform, samplerate, encoding="PCM_S", bits_per_sample=16)
 
-                transcript,_ = self.Wtranscriptor.generate_transcript(output_filepath)
+                transcript = self.model.transcribe(output_filepath).get("text")
+                
                 results_dic[currentFileName] = {"trascript": transcript}
                 
                 

@@ -1,8 +1,5 @@
 import torch
 
-# git clone https://github.com/Idrak-Pak/whisper.git
-WISPER_PATH = "/home/mmb/Desktop/AfterGrad/IdrakWork/whisper/WTranscriptor"
-
 config = dict()
 # -------------- General configs ------------#
 config["samplerate"] = 16000
