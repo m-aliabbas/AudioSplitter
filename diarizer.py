@@ -12,7 +12,9 @@ class Diarizer:
             #Getting whisper results
             result = self.diarizer.get_whisper_result(input_filepath)
             segments = result["segments"]
-            
+            print("*"*50)
+            print("Whisper Segments: ", segments)
+            print("*"*50)
             #Getting speaker tags
             tagged_segments = self.diarizer.get_speaker_tagged_segments(input_filepath, duration, segments)
             

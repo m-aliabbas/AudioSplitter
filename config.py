@@ -1,6 +1,9 @@
 import torch
-config = dict()
 
+# git clone https://github.com/Idrak-Pak/whisper.git
+WISPER_PATH = "/home/mmb/Desktop/AfterGrad/IdrakWork/whisper/WTranscriptor"
+
+config = dict()
 # -------------- General configs ------------#
 config["samplerate"] = 16000
 config["cuda_device"] = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -8,8 +11,8 @@ config["cuda_device"] = torch.device("cuda:0" if torch.cuda.is_available() else 
 # -------------- Diarization configs ------------#
 config["num_speakers"] = 2 #@param {type:"integer"}
 config["language"] = 'English' #@param ['any', 'English']
-config["model_size"] = 'base' #@param ['tiny', 'base', 'small', 'medium', 'large']
-
+config["model_size"] = 'small.en' #@param ['tiny', 'base', 'small', 'medium', 'large']
+# print("MODEL SIZE: ", config["model_size"])
 if config["language"] == 'English' and config["model_size"] != 'large':
   config["model_name"] = config["model_size"] + '.en'
   

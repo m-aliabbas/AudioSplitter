@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+    #!/usr/bin/env python3
 import torchaudio
 import os
 import whisper
@@ -8,7 +8,7 @@ import pyannote.audio
 from pyannote.audio.pipelines.speaker_verification import PretrainedSpeakerEmbedding
 from pyannote.audio import Audio
 from pyannote.core import Segment
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import SpectralClustering, KMeans, AgglomerativeClustering
 import numpy as np  
 import pandas as pd
 from config import config
@@ -86,6 +86,10 @@ class Whisper_Splitter:
         for i, segment in enumerate(segments):
             embeddings[i] = self.segment_embedding(file_path, duration, segment)
         embeddings = np.nan_to_num(embeddings)
+        
+        # clustering = SpectralClustering(n_clusters=config['num_speakers'], affinity='nearest_neighbors').fit(embeddings)
+        # clustering = KMeans(n_clusters=config['num_speakers']).fit(embeddings)
+        
         clustering = AgglomerativeClustering(config['num_speakers']).fit(embeddings)
         labels = clustering.labels_
         for i in range(len(segments)):
