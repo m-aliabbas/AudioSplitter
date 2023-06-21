@@ -6,22 +6,22 @@ class Diarizer:
         self.diarizer = diarizer()
 
     def seprate_speakers(self, input_filepath):
-        try:
+        # try:
             
-            ext, filename, input_filepath, duration = self.diarizer.initial_processing(input_filepath)
-            #Getting whisper results
-            result = self.diarizer.get_whisper_result(input_filepath)
-            segments = result["segments"]
-            print("*"*50)
-            print("Whisper Segments: ", segments)
-            print("*"*50)
-            #Getting speaker tags
-            tagged_segments = self.diarizer.get_speaker_tagged_segments(input_filepath, duration, segments)
+        ext, filename, input_filepath, duration = self.diarizer.initial_processing(input_filepath)
+        #Getting whisper results
+        result = self.diarizer.get_whisper_result(input_filepath)
+        segments = result["segments"]
+        print("*"*50)
+        print("Whisper Segments: ", segments)
+        print("*"*50)
+        #Getting speaker tags
+        tagged_segments = self.diarizer.get_speaker_tagged_segments(input_filepath, duration, segments)
+        
+        return tagged_segments
             
-            return tagged_segments
-            
-        except Exception as e:
-            print("Error 10000!", e) 
+        # except Exception as e:
+        #     print("Error 10000!", e) 
                
 def main():
     input_filepath = "/home/mmb/Desktop/AfterGrad/IdrakWork/WhisperSplitter/audiosRecs/20220328-102350_8123448031-all.wav"    

@@ -21,7 +21,7 @@ class Py_Diarizer:
             df = pd.DataFrame(columns=['speaker_id', 'start', 'end'])
             
             # 4. apply pretrained pipeline
-            diarization = self.pipeline(file_path, num_speakers=num_speakers)
+            diarization = self.pipeline(file_path)
 
             # 5. print the result
             for turn, _, speaker in diarization.itertracks(yield_label=True):
@@ -149,6 +149,7 @@ class Py_Diarizer:
             print("Error 90000: ", e)
 
     def seprate_speakers(self, file_path, outfolder_path):
+        
         if not os.path.exists(file_path):
             raise ValueError(f"{file_path} doesn't exist.")
         

@@ -22,7 +22,8 @@ from mapper import Mapper
 class Whisper_Splitter:
     
     def __init__(self) -> None: 
-        self.embedding_model = PretrainedSpeakerEmbedding("speechbrain/spkrec-ecapa-voxceleb")
+        self.embedding_model = PretrainedSpeakerEmbedding("nvidia/speakerverification_en_titanet_large",device='cuda')
+        print(self.embedding_model)
         self.model = whisper.load_model(config["model_size"])
         self.audio = Audio()
         self.mapper = Mapper()
@@ -48,7 +49,6 @@ class Whisper_Splitter:
     
     def get_stats(self, file_path):
         waveform, samplerate = torchaudio.load(file_path)
-
         # Get audio duration
         duration = float(waveform.shape[1]) / samplerate
 
@@ -79,6 +79,7 @@ class Whisper_Splitter:
         end = min(duration, segment["end"])
         clip = Segment(start, end)
         waveform, sample_rate = self.audio.crop(file_path, clip)
+        # print(waveform)
         return self.embedding_model(waveform[None])
 
     def get_speaker_tagged_segments(self, file_path, duration, segments):
@@ -236,60 +237,60 @@ class Whisper_Splitter:
         
     
     def split_audio_file(self, input_filepath, output_dir_path, patternsList, verbose):
-        try:
-            #Dict for storing results
-            results_dic = dict()
-            
-            ext, filename, input_filepath, duration = self.initial_processing(input_filepath)
-            results_dic["id"] = filename
-            
-            #Getting whisper results
-            result = self.get_whisper_result(input_filepath)
-            segments = result["segments"]
-            
-            #Getting speaker tags
-            tagged_segments = self.get_speaker_tagged_segments(input_filepath, duration, segments)
-            
-            df = self.get_speaker_tagged_df(tagged_segments)
-            
-            #Grouping and processing raw time stamps
-            df_updated = self.processRawTimeStamps(df)
-            
-            #Saving transcript 
-            results_dic["transcript"] = result["text"]
+        # try:
+        #Dict for storing results
+        results_dic = dict()
+        
+        ext, filename, input_filepath, duration = self.initial_processing(input_filepath)
+        results_dic["id"] = filename
+        
+        #Getting whisper results
+        result = self.get_whisper_result(input_filepath)
+        segments = result["segments"]
+        
+        #Getting speaker tags
+        tagged_segments = self.get_speaker_tagged_segments(input_filepath, duration, segments)
+        
+        df = self.get_speaker_tagged_df(tagged_segments)
+        
+        #Grouping and processing raw time stamps
+        df_updated = self.processRawTimeStamps(df)
+        
+        #Saving transcript 
+        results_dic["transcript"] = result["text"]
 
-            #Creating output folder for audio file under processing
-            outfolder_path = os.path.join(output_dir_path,filename)
-            self.createOutFolder(outfolder_path)
-            
-            #Creating sub folder (splits) in output folder
-            splits_folder_path = os.path.join(outfolder_path,"splits/")
-            self.createOutFolder(splits_folder_path)
-            
-            #Loading audio 
-            waveform, samplerate = torchaudio.load(input_filepath)
+        #Creating output folder for audio file under processing
+        outfolder_path = os.path.join(output_dir_path,filename)
+        self.createOutFolder(outfolder_path)
+        
+        #Creating sub folder (splits) in output folder
+        splits_folder_path = os.path.join(outfolder_path,"splits/")
+        self.createOutFolder(splits_folder_path)
+        
+        #Loading audio 
+        waveform, samplerate = torchaudio.load(input_filepath)
 
-            #Getting mapped respones 
-            mappedResponses = self.mapper.map_responses(df_updated, patternsList)        
-            results_dic["responses"] = mappedResponses
-            # print("Mapped Response: ", mappedResponses)
+        #Getting mapped respones 
+        mappedResponses = self.mapper.map_responses(df_updated, patternsList)        
+        results_dic["responses"] = mappedResponses
+        # print("Mapped Response: ", mappedResponses)
 
-            #Saving intermetiate results for testing/debugging
-            self.save_results(df, file_path=os.path.join(outfolder_path,filename+"_whisper.csv"))
-            self.save_results(df_updated, file_path=os.path.join(outfolder_path,filename+"_whisper_updated.csv"))
-            
-            #Saving results dict
-            with open(os.path.join(outfolder_path,filename+".json"), "w") as outfile:
-                json.dump(results_dic, outfile)
+        #Saving intermetiate results for testing/debugging
+        self.save_results(df, file_path=os.path.join(outfolder_path,filename+"_whisper.csv"))
+        self.save_results(df_updated, file_path=os.path.join(outfolder_path,filename+"_whisper_updated.csv"))
+        
+        #Saving results dict
+        with open(os.path.join(outfolder_path,filename+".json"), "w") as outfile:
+            json.dump(results_dic, outfile)
 
-            #slicing the audio and saving chunks
-            self.slice_save_responses(waveform, samplerate, mappedResponses, splits_folder_path)
-            
-            #Deleting the newly generated wav file in case mp3 was given
-            if ext != "wav":
-                os.remove(input_filepath)  
-        except Exception as e:
-            print("Error 10000!", e) 
+        #slicing the audio and saving chunks
+        self.slice_save_responses(waveform, samplerate, mappedResponses, splits_folder_path)
+        
+        #Deleting the newly generated wav file in case mp3 was given
+        if ext != "wav":
+            os.remove(input_filepath)  
+        # except Exception as e:
+        #     print("Error 10000!", e) 
                
 def main():    
     pass

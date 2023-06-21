@@ -1,28 +1,59 @@
-# Whisper Splitter Tool version 1.0
+# IdrakDiarizer
 
-## How to use this tool for splittings?
-0. Activate Conda Envirement if not already activated
-1. Just run mainDriver.py after setting things in config.py and input & output folder paths in main function of mainDriver.py:
-python newDriver.py
+It is a speaker diarization application that separates the different speakers in an audio file. It uses FastWhisper for transcription, Pyannote Diarization
+pipeline for speaker identification, and fastapi for request and respons. 
 
-## How to use this tool (mainDriver.py) 
-1. Set the configurations.
-3. Run the tool. 
-4. Get your results from OUTPUT folder.
 
-## For Envirement Setup
-1. Install Anaconda
-2. Create conda envirement:
-conda create -n whisper-splitter python=3.10
-3. Activate conda envirement:
-conda activate whisper-splitter
-4. Install the other libraries mentioned in requirement.txt:
-pip install -r requirements.txt
+## Getting Started
 
-## How to use this tool for simple diarization? 
-Kindly look into diarizer_example.py
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Copyright (C) IDRAK AI
-### Created by: M Musawar
-### Dated: April 5th, 2023
-### Contact Info (in case of any problem): mmusawar.idrakai@gmail.com
+### Prerequisites
+
+Before running the application, make sure you have the following dependencies installed:
+
+- FastAPI
+- pyannote
+- requests
+- uvicorn (for running the FastAPI application)
+
+You can install these packages using pip:
+
+```
+pip install fastapi pyannote.core requests uvicorn faster_whisper
+```
+
+### Running the Application
+
+To run the application, you first need to start the FastAPI server. To do this, navigate to the directory containing the diarizer_server.py file and run the following command:
+
+```
+
+uvicorn diarizer_server.py:app --host 0.0.0.0 --port 8080 --reload
+
+
+```
+This will start the FastAPI application on your localhost.
+
+Then, you can use the diarizer_client.py script to send an audio file to the server for speaker diarization. Simply replace the file_name variable with the path to your audio file and run the script.
+
+### Usage
+Do send a post request to `uploadfile` route of server url. It will return a json response. For example ussage please see the `diarizer_client.py`
+The application provides a FastAPI endpoint for uploading an audio file. Once the file is uploaded, the server performs speaker diarization and returns the tagged speaker segments if successful, or an error message if not.
+
+```
+
+@app.post("/uploadfile/")
+async def create_upload_file(file: UploadFile):
+    # ... rest of code ...
+```
+
+### Authors
+
+    - Mohammad Musawir Baig
+    - Mohammad Ali Abbas
+
+License
+
+This property of company (IdrakAi)
+
