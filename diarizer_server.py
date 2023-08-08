@@ -29,15 +29,15 @@ async def create_upload_file(file: UploadFile):
     """
     
     # Define the location for the uploaded files
-    file_location = f"uploads/{file.filename}"
-    
+    file_location = f"uploads/{os.path.basename(file.filename)}"
+    print(file_location)
     # Open and save the uploaded file
     with open(file_location, "wb+") as file_object:
         file_object.write(file.file.read())
     
     # Perform speaker diarization
     tagged_segments = diarizer.seprate_speakers(file_location, outfolder_path)
-    
+    print(tagged_segments)
     # Prepare and return the output
     if tagged_segments:
         output = {
