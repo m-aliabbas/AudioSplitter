@@ -1,0 +1,2 @@
+1. source ~/pytorch/bin/activate
+2. uvicorn diarizer_server:app --host 192.168.100.61  --port 8080 --reload

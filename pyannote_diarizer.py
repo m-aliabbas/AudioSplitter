@@ -21,7 +21,7 @@ class Py_Diarizer:
             df = pd.DataFrame(columns=['speaker_id', 'start', 'end'])
             
             # 4. apply pretrained pipeline
-            diarization = self.pipeline(file_path)
+            diarization = self.pipeline(file_path,num_speakers=num_speakers)
 
             # 5. print the result
             for turn, _, speaker in diarization.itertracks(yield_label=True):

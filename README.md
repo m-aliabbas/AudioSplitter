@@ -29,7 +29,8 @@ To run the application, you first need to start the FastAPI server. To do this, 
 
 ```
 
-uvicorn diarizer_server.py:app --host 0.0.0.0 --port 8080 --reload
+uvicorn diarizer_server:app --host 192.168.100.100  --port 8080 --reload
+
 
 
 ```
