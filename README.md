@@ -1,4 +1,4 @@
-# IdrakDiarizer
+# Audio Cropper
 
 It is a speaker diarization application that separates the different speakers in an audio file. It uses FastWhisper for transcription, Pyannote Diarization
 pipeline for speaker identification, and fastapi for request and respons. 
